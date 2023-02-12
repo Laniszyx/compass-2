@@ -14,8 +14,8 @@
       #needle {
         width: 0;
         height: 0;
-        border-left: 50px solid transparent;
-        border-right: 50px solid transparent;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
         border-top: 100px solid red;
         position: absolute;
         top: 50%;
@@ -32,8 +32,13 @@
     </div>
 
     <script>
-      if ('ondevicemagnetometer' in window) {
-        window.addEventListener("devicemagnetometer", function(event) {
+      navigator.permissions.query({ name: "magnetometer" }).then((result) => {
+      if (result.state === "denied") {
+        console.log("Permission to use magnetometer sensor is denied.");
+        return;
+      }
+      if ('magnetometer' in window) {
+        window.addEventListener("magnetometer", function(event) {
           var reading = event.reading;
           var x = reading.x;
           var y = reading.y;
@@ -46,6 +51,8 @@
       } else {
         document.getElementById("compass").innerHTML = "Web Magnetometer API not supported.";
       }
+    });
+      
     </script>
   </body>
 </html>
