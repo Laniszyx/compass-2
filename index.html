@@ -1,45 +1,51 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>North Compass</title>
     <style>
-      .compass {
-        width: 100%;
+      #compass {
+        width: 300px;
         height: 300px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-      }
-      .compass::before {
-        content: "";
-        width: 200px;
-        height: 200px;
         border-radius: 50%;
-        border: solid 10px black;
-        position: absolute;
+        border: 10px solid gray;
+        margin: 50px auto;
+        position: relative;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
       }
-      .compass-needle {
+      #needle {
         width: 0;
         height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
         border-top: 100px solid red;
-        transform: rotate(90deg);
         position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -50px;
+        margin-top: -100px;
       }
     </style>
   </head>
   <body>
-    <div class="compass">
-      <div id="compass-needle" class="compass-needle"></div>
+    <h1>North Compass</h1>
+    <div id="compass">
+      <div id="needle"></div>
     </div>
+
     <script>
-      window.addEventListener("deviceorientation", (event) => {
-        const angle = event.webkitCompassHeading || event.alpha;
-        const needle = document.getElementById("compass-needle");
-        needle.style.transform = `rotate(${angle}deg)`;
-      });
+      if ('ondevicemagnetometer' in window) {
+        window.addEventListener("devicemagnetometer", function(event) {
+          var reading = event.reading;
+          var x = reading.x;
+          var y = reading.y;
+          var z = reading.z;
+  
+          var alpha = Math.atan2(y, x) * 180 / Math.PI;
+  
+          document.getElementById("needle").style.transform = "rotate(" + alpha + "deg)";
+        }, false);
+      } else {
+        document.getElementById("compass").innerHTML = "Web Magnetometer API not supported.";
+      }
     </script>
   </body>
 </html>
