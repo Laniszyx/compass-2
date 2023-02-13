@@ -35,7 +35,7 @@
         window.addEventListener('deviceorientation', function(event) {
           var alpha = event.webkitCompassHeading;
           if (alpha != null) {
-            document.querySelector('#needle').style.transform = 'rotate(' + alpha + 'deg)';
+            document.querySelector('#needle').style.transform = 'rotate(' + alpha.alpha + 'deg)';
           }
         });
       } else {
