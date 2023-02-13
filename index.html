@@ -42,7 +42,51 @@
       } else {
         console.log("device orientation API not supported");
       }
+    </script
+  </body>
+</h<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      #compass {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        border: 10px solid gray;
+        margin: 50px auto;
+        position: absolute;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      }
+      #needle {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 100px solid red;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -50px;
+        margin-top: -100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="compass">
+      <div class="needle" id="needle"></div>
+    </div>
+    <script>
+      if ('ondeviceorientation' in window) {
+        window.addEventListener('deviceorientation', function(event) {
+          var alpha = event.webkitCompassHeading;
+          if (alpha != null) {
+            document.querySelector('#needle').style.transform = 'rotate(' + alpha + 'deg)';
+          }
+        });
+      } else {
+        console.log("device orientation API not supported");
+      }
     </script>
   </body>
 </html>
-
