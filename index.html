@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>North Compass</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       #compass {
         width: 300px;
@@ -26,33 +27,20 @@
     </style>
   </head>
   <body>
-    <h1>North Compass</h1>
-    <div id="compass">
-      <div id="needle"></div>
+    <div class="compass">
+      <div class="needle" id="needle"></div>
     </div>
-
     <script>
-      navigator.permissions.query({ name: "magnetometer" }).then((result) => {
-      if (result.state === "denied") {
-        console.log("Permission to use magnetometer sensor is denied.");
-        return;
-      }
-      if ('magnetometer' in window) {
-        window.addEventListener("magnetometer", function(event) {
-          var reading = event.reading;
-          var x = reading.x;
-          var y = reading.y;
-          var z = reading.z;
-  
-          var alpha = Math.atan2(y, x) * 180 / Math.PI;
-  
-          document.getElementById("needle").style.transform = "rotate(" + alpha + "deg)";
-        }, false);
+      if ('ondeviceorientation' in window) {
+        window.addEventListener('deviceorientation', function(event) {
+          var alpha = event.alpha;
+          document.querySelector('#needle').style.transform = 'rotate(' + alpha + 'deg)';
+        });
       } else {
-        document.getElementById("compass").innerHTML = "Web Magnetometer API not supported.";
+        console.log("device orientation API not supported");
       }
-    });
-      
     </script>
   </body>
 </html>
+
+
